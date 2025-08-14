@@ -16,10 +16,11 @@ public class SArrayStack<E> {
 
     //Push
     public void push(E element) {
-        if (size < 10) {
-            array[size] = element;
-            size++;
+        if (size >= 10) {
+            grow();
         }
+        array[size] = element;
+        size++;
     }
 
     //Pop
@@ -30,6 +31,9 @@ public class SArrayStack<E> {
         E tempVar = array[size-1];
         array[size-1] = null;
         size--;
+        if (array.length/4>size){
+            shrink();
+        }
         return tempVar;
     }
 
@@ -39,6 +43,36 @@ public class SArrayStack<E> {
             return array[size-1];
         }
         return null;
+    }
+
+    //Grow
+    public void grow() {
+        E[] newArr = (E[]) new Object[array.length * 2];
+        for(int i = 0; i < size; i++) {
+            newArr[i] = array[i];
+        }
+        array = newArr;
+    }
+
+    //Shrink
+    public void shrink() {
+        E[] newArr = (E[]) new Object[array.length / 2];
+        for (int i = 0;i<size;i++){
+            newArr[i] = array[i];
+        }
+        array = newArr;
+    }
+
+    public int capacity() {
+        return array.length;
+    }
+
+    public boolean isEmpty(){
+        return size==0;
+    }
+
+    public int size() {
+        return size;
     }
 
     public void print() {
